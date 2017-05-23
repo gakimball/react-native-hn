@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { inject } from 'mobx-react';
 import { FontAwesome } from '@expo/vector-icons';
 import HTMLView from 'react-native-htmlview';
 import CommentList from './comment-list';
-import colors from '../constants/colors';
 
+@inject(stores => ({
+  tintColor: stores.settings.color,
+}))
 export default class Comment extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +31,7 @@ export default class Comment extends Component {
         alignItems: 'center',
       },
       repliesText: {
-        color: colors.primary,
+        color: props.tintColor,
         fontWeight: 'bold',
         marginLeft: 8,
       },
@@ -40,7 +43,7 @@ export default class Comment extends Component {
         marginBottom: 8,
       },
       a: {
-        color: colors.primary,
+        color: props.tintColor,
       },
     });
 
@@ -71,7 +74,7 @@ export default class Comment extends Component {
 
   render() {
     const { styles } = this;
-    const { comment } = this.props;
+    const { comment, tintColor } = this.props;
     const { childrenVisible, childComments } = this.state;
 
     return (
@@ -85,7 +88,7 @@ export default class Comment extends Component {
           : (
             comment.kids && (
               <TouchableOpacity style={styles.replies} onPress={() => this.handlePressReplies(comment.kids)} activeOpacity={0.5}>
-                <FontAwesome name="comment" size={16} color={colors.primary} />
+                <FontAwesome name="comment" size={16} color={tintColor} />
                 <Text style={styles.repliesText}>
                   {`${comment.kids.length} ${comment.kids.length === 1 ? 'Reply' : 'Replies'}`}
                 </Text>

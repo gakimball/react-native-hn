@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, WebView, StyleSheet, TabBarIOS, Text, SegmentedControlIOS, ScrollView } from 'react-native';
+import { inject } from 'mobx-react';
 import CommentList from '../components/comment-list';
-import colors from '../constants/colors';
 
+@inject(stores => ({
+  tintColor: stores.settings.color,
+}))
 export default class StoryView extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +55,7 @@ export default class StoryView extends Component {
 
   render() {
     const { styles } = this;
-    const { story } = this.props;
+    const { story, tintColor } = this.props;
     const { comments, viewIndex } = this.state;
 
     return (
@@ -62,7 +65,7 @@ export default class StoryView extends Component {
             values={['Story', 'Comments']}
             selectedIndex={viewIndex}
             onChange={this.handleSegmentedControlChange}
-            tintColor={colors.primary}
+            tintColor={tintColor}
           />
         </View>
         <View style={styles.webview}>
