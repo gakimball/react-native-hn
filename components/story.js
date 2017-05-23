@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, StyleSheet, TouchableHighlight, ActionSheetIOS } from 'react-native';
 import StoryView from '../routes/story';
+
+const noop = () => {};
 
 const styles = StyleSheet.create({
   container: {
@@ -21,11 +23,31 @@ export default class Story extends Component {
     });
   }
 
+  handleLongPress = () => {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: ['Share', 'Close'],
+      cancelButtonIndex: 1,
+      title: this.props.story.title,
+    }, index => {
+      if (index === 0) {
+        this.showShareDialog();
+      }
+    });
+  }
+
+  showShareDialog() {
+    const { story } = this.props;
+
+    ActionSheetIOS.showShareActionSheetWithOptions({
+      url: story.url,
+    }, noop, noop);
+  }
+
   render() {
     const { story } = this.props;
 
     return (
-      <TouchableHighlight style={styles.container} onPress={this.handlePress} underlayColor="#f9f9f9">
+      <TouchableHighlight style={styles.container} onPress={this.handlePress} onLongPress={this.handleLongPress} underlayColor="#f9f9f9">
         <Text>{story.title}</Text>
       </TouchableHighlight>
     );
