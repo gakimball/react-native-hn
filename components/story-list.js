@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { ScrollView, RefreshControl, ListView, Text, StyleSheet } from 'react-native';
+import { inject } from 'mobx-react';
 import Story from './story';
 
+@inject(stores => ({
+  refreshing: stores.stories.refreshing,
+  stories: stores.stories.stories,
+  getStories: () => stores.stories.getStories(),
+}))
 export default class StoryList extends Component {
-  state = {
-    refreshing: false,
-    stories: new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.id !== r2.id,
-    }),
-  }
-
   styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -20,30 +19,7 @@ export default class StoryList extends Component {
   });
 
   componentDidMount() {
-    this.fetchStories(true);
-  }
-
-  fetchStories(initial = true) {
-    const getStory = story => fetch(`https://hacker-news.firebaseio.com/v0/item/${story}.json`)
-      .then(res => res.json());
-
-    const fetchStories = () => fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
-      .then(res => res.json())
-      .then(stories => Promise.all(stories.slice(0, 20).map(getStory)))
-      .then(stories => {
-        this.setState({
-          refreshing: false,
-          stories: this.state.stories.cloneWithRows(stories),
-        });
-      });
-
-    if (initial) {
-      fetchStories();
-    } else {
-      this.setState({
-        refreshing: true,
-      }, fetchStories);
-    }
+    this.props.getStories(true);
   }
 
   renderRow = story => {
@@ -51,26 +27,23 @@ export default class StoryList extends Component {
   }
 
   handleRefresh = () => {
-    this.fetchStories();
+    this.props.getStories();
   }
 
-  get storiesEmpty() {
-    return this.state.stories.getRowCount() === 0;
+  get storiesLoaded() {
+    return this.props.stories.getRowCount() > 0;
   }
 
   render() {
     const { styles } = this;
-    const { refreshing, stories } = this.state;
+    const { refreshing, stories } = this.props;
 
     return (
       <ScrollView
         contentContainerStyle={styles.container}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.handleRefresh} />}
       >
-        {this.storiesEmpty
-          ? <Text>Loading top stories...</Text>
-          : <ListView dataSource={stories} renderRow={this.renderRow} />
-        }
+        {this.storiesLoaded && <ListView dataSource={stories} renderRow={this.renderRow} />}
       </ScrollView>
     );
   }
