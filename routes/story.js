@@ -23,8 +23,6 @@ export default class StoryView extends Component {
       },
     });
 
-    this.webview =
-
     this.state = {
       comments: [],
       viewIndex: 0,
