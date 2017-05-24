@@ -15,7 +15,7 @@ export default class Comment extends Component {
     this.styles = StyleSheet.create({
       comment: {
         padding: 16,
-        borderBottomWidth: 1,
+        borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: '#ccc',
       },
       comment_last: {

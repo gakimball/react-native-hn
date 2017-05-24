@@ -7,7 +7,7 @@ const noop = () => {};
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#ccc',
   },
 });
