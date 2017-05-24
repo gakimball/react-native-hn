@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, Picker, StyleSheet } from 'react-native';
 import { inject } from 'mobx-react';
+import ListPicker from '../components/list-picker';
 
 @inject(stores => ({
   color: stores.settings.color,
@@ -8,14 +9,23 @@ import { inject } from 'mobx-react';
 }))
 export default class SettingsView extends Component {
   static colors = [
-    ['Sassy', '#e62cc3'],
-    ['Fruity', '#2ce66b'],
-    ['Tangy', '#e6a12c'],
+    {
+      label: 'Sassy',
+      value: '#e62cc3',
+    },
+    {
+      label: 'Fruity',
+      value: '#2ce66b',
+    },
+    {
+      label: 'Tangy',
+      value: '#e6a12c',
+    },
   ]
 
   styles = StyleSheet.create({
     container: {
-      paddingTop: 64,
+      paddingTop: 64 + 16,
       justifyContent: 'flex-start',
     },
     text: {
@@ -38,14 +48,12 @@ export default class SettingsView extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Theme Color</Text>
-        <View style={styles.picker}>
-          <Picker selectedValue={color} onValueChange={this.handlePickerChange}>
-            {colors.map(([name, color]) =>
-              <Picker.Item key={color} label={name} value={color} />
-            )}
-          </Picker>
-        </View>
+        <ListPicker
+          choices={colors}
+          label="Theme Color"
+          onChange={this.handlePickerChange}
+          value={color}
+        />
       </View>
     )
   }
