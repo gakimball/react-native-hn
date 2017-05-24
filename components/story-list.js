@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, RefreshControl, ListView, StyleSheet } from 'react-native';
 import { inject } from 'mobx-react';
 import PropTypes from 'prop-types';
-import Story from './story';
+import Story from './story-list-item';
 
 @inject(stores => ({
   refreshing: stores.stories.refreshing,
