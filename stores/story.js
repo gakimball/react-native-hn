@@ -24,6 +24,6 @@ export default class StoryStore {
         extendObservable(this, {
           stories: this.stories.cloneWithRows(stories),
         });
-      })
+      });
   }
 }

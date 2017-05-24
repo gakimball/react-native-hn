@@ -59,12 +59,12 @@ export default class ListPicker extends Component {
 
   render() {
     const { styles } = this.constructor;
-    const { choices, label, value } = this.props;
+    const { choices, label: pickerLabel } = this.props;
 
     return (
       <View>
         <View style={styles.label}>
-          <Text style={styles.label_text}>{label}</Text>
+          <Text style={styles.label_text}>{pickerLabel}</Text>
         </View>
         {choices.map(({ label, value }) =>
           <TouchableHighlight key={value} underlayColor="#f9f9f9" style={styles.choice} onPress={() => this.handleChange(value)}>
@@ -72,6 +72,6 @@ export default class ListPicker extends Component {
           </TouchableHighlight>
         )}
       </View>
-    )
+    );
   }
 }

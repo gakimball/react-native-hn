@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, StyleSheet, TouchableHighlight, ActionSheetIOS } from 'react-native';
+import PropTypes from 'prop-types';
 import StoryView from '../routes/story';
 
 const noop = () => {};
@@ -13,6 +14,11 @@ const styles = StyleSheet.create({
 });
 
 export default class Story extends Component {
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    story: PropTypes.object.isRequired,
+  }
+
   handlePress = () => {
     this.props.navigator.push({
       component: StoryView,

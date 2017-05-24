@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { ScrollView, RefreshControl, ListView, Text, StyleSheet } from 'react-native';
+import { ScrollView, RefreshControl, ListView, StyleSheet } from 'react-native';
 import { inject } from 'mobx-react';
+import PropTypes from 'prop-types';
 import Story from './story';
 
 @inject(stores => ({
@@ -9,6 +10,13 @@ import Story from './story';
   getStories: () => stores.stories.getStories(),
 }))
 export default class StoryList extends Component {
+  static propTypes = {
+    refreshing: PropTypes.bool.isRequired,
+    stories: PropTypes.instanceOf(ListView.DataSource).isRequired,
+    getStories: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired,
+  }
+
   styles = StyleSheet.create({
     container: {
       flex: 1,

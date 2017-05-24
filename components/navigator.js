@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavigatorIOS } from 'react-native';
 import { inject } from 'mobx-react';
+import PropTypes from 'prop-types';
 import StoriesView from '../routes/stories';
 import SettingsView from '../routes/settings';
 
@@ -8,6 +9,10 @@ import SettingsView from '../routes/settings';
   tintColor: stores.settings.color,
 }))
 export default class Navigator extends Component {
+  static propTypes = {
+    tintColor: PropTypes.string.isRequired,
+  }
+
   goToSettings() {
     this.nav.push({
       component: SettingsView,
@@ -18,7 +23,9 @@ export default class Navigator extends Component {
   render() {
     return (
       <NavigatorIOS
-        ref={e => { this.nav = e; }}
+        ref={e => {
+          this.nav = e;
+        }}
         initialRoute={{
           component: StoriesView,
           title: 'Top Stories',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Picker, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { inject } from 'mobx-react';
+import PropTypes from 'prop-types';
 import ListPicker from '../components/list-picker';
 
 @inject(stores => ({
@@ -8,6 +9,11 @@ import ListPicker from '../components/list-picker';
   setColor: c => stores.settings.setColor(c),
 }))
 export default class SettingsView extends Component {
+  static propTypes = {
+    color: PropTypes.string.isRequired,
+    setColor: PropTypes.func.isRequired,
+  }
+
   static colors = [
     {
       label: 'Sassy',
@@ -55,6 +61,6 @@ export default class SettingsView extends Component {
           value={color}
         />
       </View>
-    )
+    );
   }
 }

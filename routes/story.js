@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-import { View, WebView, StyleSheet, TabBarIOS, Text, SegmentedControlIOS, ScrollView } from 'react-native';
+import { View, WebView, StyleSheet, Text, SegmentedControlIOS, ScrollView } from 'react-native';
 import { inject } from 'mobx-react';
+import PropTypes from 'prop-types';
 import CommentList from '../components/comment-list';
 
 @inject(stores => ({
   tintColor: stores.settings.color,
 }))
 export default class StoryView extends Component {
+  static propTypes = {
+    story: PropTypes.object.isRequired,
+    tintColor: PropTypes.string.isRequired,
+  }
+
   constructor(props) {
     super(props);
 
@@ -35,7 +41,7 @@ export default class StoryView extends Component {
         .then(res => res.json())
     ))
       .then(comments => {
-        this.setState({ comments })
+        this.setState({ comments });
       });
   }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { inject } from 'mobx-react';
+import PropTypes from 'prop-types';
 import { FontAwesome } from '@expo/vector-icons';
 import HTMLView from 'react-native-htmlview';
 import CommentList from './comment-list';
@@ -9,6 +10,12 @@ import CommentList from './comment-list';
   tintColor: stores.settings.color,
 }))
 export default class Comment extends Component {
+  static propTypes = {
+    comment: PropTypes.object.isRequired,
+    last: PropTypes.bool.isRequired,
+    tintColor: PropTypes.string.isRequired,
+  }
+
   constructor(props) {
     super(props);
 
